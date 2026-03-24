@@ -1,0 +1,31 @@
+2026-03-14 18:19:14 | test_data.txt | 6 item(s) redacted
+2026-03-14 18:23:09 | new_patient_record.txt | 6 item(s) redacted
+2026-03-15 14:20:58 | new_patient_record.txt | 6 item(s) redacted
+2026-03-15 14:21:07 | new_patient_record.txt | 6 item(s) redacted
+2026-03-15 14:45:42 | test_clean.txt | 0 | SAFE
+2026-03-15 14:45:42 | test_dirty.txt | 4 | HIGH_RISK
+2026-03-15 14:45:42 | test_mixed.txt | 1 | HIGH_RISK
+2026-03-15 16:10:14 | test_clean.txt | 0 | SAFE | 236AE649 | 0 phones, 0 emails
+2026-03-15 16:10:14 | test_dirty.txt | 4 | HIGH_RISK | 236AE649 | 2 phones, 2 emails
+2026-03-15 16:10:14 | test_mixed.txt | 1 | HIGH_RISK | 236AE649 | 1 phone, 0 emails
+2026-03-15 16:44:50 | test_clean.txt | 0 | SAFE | 408F0C29 | 0 phones, 0 emails
+2026-03-15 16:44:50 | test_dirty.txt | 4 | HIGH_RISK | 408F0C29 | 2 phones, 2 emails
+2026-03-15 16:44:50 | test_mixed.txt | 1 | HIGH_RISK | 408F0C29 | 1 phone, 0 emails
+2026-03-15 16:55:51 | test_clean.txt | 0 | SAFE | 43C1D04C | 0 phones, 0 emails
+2026-03-15 16:55:51 | test_dirty.txt | 4 | HIGH_RISK | 43C1D04C | 2 phones, 2 emails
+2026-03-15 16:55:51 | test_mixed.txt | 1 | HIGH_RISK | 43C1D04C | 1 phone, 0 emails
+2026-03-15 17:10:04 | test_clean.txt | 0 | SAFE | D5839EB8 | 0 phones, 0 emails
+2026-03-15 17:10:04 | test_dirty.txt | 4 | HIGH_RISK | D5839EB8 | 2 phones, 2 emails
+2026-03-15 17:10:04 | test_mixed.txt | 1 | HIGH_RISK | D5839EB8 | 1 phone, 0 emails
+2026-03-15 17:23:41 | test_clean.txt | 0 | SAFE | 4269912A | 0 phones, 0 emails
+2026-03-15 17:23:41 | test_dirty.txt | 4 | HIGH_RISK | 4269912A | 2 phones, 2 emails
+2026-03-15 17:23:41 | test_mixed.txt | 1 | HIGH_RISK | 4269912A | 1 phone, 0 emails
+2026-03-15 17:34:05 | test_clean.txt | 0 | SAFE | 3E7D89B9 | 0 phones, 0 emails
+2026-03-15 17:34:05 | test_dirty.txt | 4 | HIGH_RISK | 3E7D89B9 | 2 phones, 2 emails
+2026-03-15 17:34:05 | test_mixed.txt | 1 | HIGH_RISK | 3E7D89B9 | 1 phone, 0 emails
+2026-03-16 16:45:30.374489 | test_clean.txt | SAFE | 0
+2026-03-16 16:45:30.569410 | test_dirty.txt | HIGH_RISK | 4
+2026-03-16 16:45:30.773002 | test_mixed.txt | HIGH_RISK | 1
+2026-03-16 19:55:11.626197 | test_clean.txt | SAFE | 0
+2026-03-16 19:55:11.830223 | test_dirty.txt | HIGH_RISK | 4
+2026-03-16 19:55:12.134446 | test_mixed.txt | HIGH_RISK | 1

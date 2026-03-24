@@ -1,0 +1,16 @@
+Patient Records - Test Data
+
+Name: John Doe
+DOB: 1985-04-12
+Phone: (555) 867-5309
+Email: john.doe@example.com
+
+Name: Jane Smith
+DOB: 1992-11-30
+Phone: 555-234-5678
+Email: jane.smith@fakemail.org
+
+Name: Robert Johnson
+DOB: 1978-07-04
+Phone: +1 (555) 321-0987
+Email: r.johnson@testpatient.net
