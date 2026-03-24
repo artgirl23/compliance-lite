@@ -26,11 +26,9 @@ if "audit_log" not in st.session_state:
 # ── DATABASE ──────────────────────────────────────────────────────────────────
 @st.cache_resource
 def _get_supabase() -> Client:
-    # UPDATED FOR STREAMLIT CLOUD SECRETS
     url = st.secrets["SUPABASE_URL"]
     key = st.secrets["SUPABASE_KEY"]
     return create_client(url, key)
-
 
 # ── LOGIN SCREEN ──────────────────────────────────────────────────────────────
 def show_login():
@@ -40,33 +38,12 @@ def show_login():
         .stApp {
             background: radial-gradient(circle at center, #1e293b, #0c111c) !important;
             background-attachment: fixed !important;
-            transition: none !important;
         }
 
-        /* ── Kill Streamlit's default top padding ── */
-        [data-testid="stAppViewContainer"] > .main { padding: 0 !important; }
-        [data-testid="stHeader"],
-        [data-testid="stFooter"],
-        [data-testid="stSidebar"] { display: none !important; }
+        /* ── Header/Footer Cleanup ── */
+        [data-testid="stHeader"], [data-testid="stFooter"] { display: none !important; }
 
-        /* ── No scroll ── */
-        html, body { overflow: hidden !important; }
-
-        /* ── Strip all wrapper backgrounds / borders ── */
-        [data-testid="stAppViewContainer"],
-        [data-testid="stMain"],
-        .main, .stMain,
-        [data-testid="stVerticalBlock"],
-        [data-testid="stHorizontalBlock"],
-        [data-testid="stColumn"],
-        .stMarkdownContainer, .element-container, .block-container {
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            animation: none !important;
-        }
-
-        /* ── THE PIN: card escapes Streamlit's layout and sits dead-center ── */
+        /* ── THE LOGIN CARD ── */
         .login-card-marker { display: none; }
         [data-testid="stColumn"]:has(.login-card-marker) {
             position: fixed !important;
@@ -76,60 +53,35 @@ def show_login():
             z-index: 9999 !important;
             width: 420px !important;
             background: rgba(255, 255, 255, 0.05) !important;
-            backdrop-filter: blur(20px) saturate(160%) !important;
-            -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+            backdrop-filter: blur(20px) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
             border-radius: 28px !important;
             padding: 40px !important;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
         }
 
-        /* ── All elements inside the card: full-width, consistent ── */
-        [data-testid="stColumn"]:has(.login-card-marker) .stTextInput,
-        [data-testid="stColumn"]:has(.login-card-marker) .stButton,
-        [data-testid="stColumn"]:has(.login-card-marker) .stAlert,
-        [data-testid="stColumn"]:has(.login-card-marker) .stMarkdownContainer {
-            width: 100% !important;
+        /* ── FIX: INPUT TEXT VISIBILITY ── */
+        input {
+            color: #1E1E1E !important; /* Dark text for visibility */
+            background-color: #FFFFFF !important; /* White background */
         }
 
-        /* ── Inputs ── */
-        [data-testid="stColumn"]:has(.login-card-marker) div[data-baseweb="input"] {
-            background-color: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 12px !important;
-            min-height: 48px !important;
-            margin-bottom: 14px !important;
-        }
-        [data-testid="stColumn"]:has(.login-card-marker) div[data-baseweb="input"]:focus-within {
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
-        }
-        [data-testid="stColumn"]:has(.login-card-marker) input {
-            color: #ffffff !important;
-            font-size: 15px !important;
+        /* ── FIX: KILL THE BLACK BOX (Adornment) ── */
+        div[data-testid="stInputAdornment"], 
+        div[data-testid="stInputAdornment"] button {
             background-color: transparent !important;
-            caret-color: #ffffff !important;
-            min-height: 48px !important;
+            border: none !important;
+            box-shadow: none !important;
         }
-        [data-testid="stColumn"]:has(.login-card-marker) label { display: none !important; }
 
-        /* ── Sign In button: full-width blue ── */
+        /* ── Sign In button ── */
         [data-testid="stColumn"]:has(.login-card-marker) .stButton > button {
             width: 100% !important;
             background: #3b82f6 !important;
             color: #ffffff !important;
-            border: none !important;
             border-radius: 12px !important;
             min-height: 50px !important;
             font-weight: 700 !important;
-            font-size: 15px !important;
-            margin-top: 6px !important;
-            transition: background 0.2s ease, transform 0.2s ease !important;
-        }
-        [data-testid="stColumn"]:has(.login-card-marker) .stButton > button:hover {
-            background: #2563eb !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4) !important;
         }
     </style>
     """, unsafe_allow_html=True)
@@ -147,12 +99,8 @@ def show_login():
             st.markdown(
                 '<div style="text-align:center;">'
                 '<div style="font-size:44px; margin-bottom:10px;">🛡️</div>'
-                '<h2 style="color:#f1f5f9; font-size:22px; font-weight:700; margin:0 0 5px 0;">'
-                'Compliance Lite</h2>'
-                '<p style="color:#94a3b8; font-size:14px; margin:0 0 5px 0;">'
-                'Enterprise PHI Detection</p>'
-                '<p style="color:#7dd3fc; font-size:12px; font-style:italic; margin:0 0 30px 0;">'
-                'Demo Access: Use credentials below</p>'
+                '<h2 style="color:#f1f5f9; font-size:22px; font-weight:700; margin:0 0 5px 0;">Compliance Lite</h2>'
+                '<p style="color:#94a3b8; font-size:14px; margin:0 0 30px 0;">Enterprise PHI Detection</p>'
                 '</div>',
                 unsafe_allow_html=True,
             )
@@ -161,50 +109,51 @@ def show_login():
             password = st.text_input("Password", placeholder="Password", key="login_password", label_visibility="collapsed", type="password")
 
             if st.button("Sign In →", key="login_btn"):
-                if not email or not password:
-                    st.session_state.login_error = "Please enter both email and password."
+                try:
+                    response = _get_supabase().auth.sign_in_with_password({"email": email, "password": password})
+                    st.session_state.authenticated = True
+                    st.session_state.user = response.user
                     st.rerun()
-                else:
-                    try:
-                        response = _get_supabase().auth.sign_in_with_password({"email": email, "password": password})
-                        st.session_state.authenticated = True
-                        st.session_state.user = response.user
-                        login_placeholder.empty()
-                        st.rerun()
-                    except Exception as e:
-                        st.session_state.login_error = str(e)
-                        st.rerun()
+                except Exception as e:
+                    st.session_state.login_error = "Invalid Credentials"
+                    st.rerun()
 
             st.markdown(
-                '<div style="margin-top:14px; background:rgba(255,255,255,0.04);'
-                ' border:1px solid rgba(255,255,255,0.08); border-radius:12px;'
-                ' padding:12px 16px; font-size:12px; color:#94a3b8;'
-                ' line-height:1.9; text-align:center;">'
-                '<strong style="color:#cbd5e1;">demo@katiegray.design</strong><br>'
-                '<strong style="color:#cbd5e1;">Compliance2026</strong>'
-                '</div>',
-                unsafe_allow_html=True,
-            )
+                '<div style="margin-top:14px; background:rgba(255,255,255,0.04); border-radius:12px; padding:12px; font-size:12px; color:#94a3b8; text-align:center;">'
+                'demo@katiegray.design | Compliance2026'
+                '</div>', unsafe_allow_html=True)
 
 # ── DASHBOARD STYLES ──────────────────────────────────────────────────────────
 DASHBOARD_CSS = """
 <style>
-    .stApp { background: radial-gradient(circle at top right, #1e293b, #0f172a); background-attachment: fixed; color: #f8fafc; }
-    [data-testid="stHeader"] { display: none !important; }
-    .main-header {
-        width: 100% !important; margin: 0 0 2rem 0 !important; padding: 44px 0;
-        background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%) !important;
-        text-align: center; border-radius: 30px;
-    }
-    .main-header h1 { font-size: 2.4rem; font-weight: 800; color: #ffffff !important; }
-    [data-testid="stSidebar"] { background-color: #1e293b !important; }
-    .sidebar-label { font-size: 0.7rem; text-transform: uppercase; color: #64748b !important; margin-top: 14px; }
-    .sidebar-value { font-size: 0.95rem; font-weight: 600; color: #f1f5f9 !important; }
+    .stApp { background: radial-gradient(circle at top right, #1e293b, #0f172a); color: #f8fafc; }
     
-    /* Red Buttons for Dashboard */
-    div:not([data-testid="stSidebar"]) .stButton > button {
-        background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%) !important;
-        color: white !important; border-radius: 16px !important; font-weight: 700 !important;
+    /* FIX: Top Header Banner */
+    .main-header {
+        width: 100% !important; padding: 40px;
+        background: linear-gradient(90deg, #1e40af 0%, #3b82f6 100%) !important;
+        text-align: center; border-radius: 20px; margin-bottom: 2rem;
+    }
+    
+    /* FIX: Uploader Text Visibility */
+    [data-testid="stFileUploadDropzone"] {
+        background-color: rgba(255,255,255,0.05) !important;
+        color: white !important;
+    }
+    
+    /* FIX: Sanitize Button Contrast */
+    div.stButton > button {
+        background: #3b82f6 !important;
+        color: white !important;
+        border-radius: 12px !important;
+        border: none !important;
+        padding: 0.6rem 2rem !important;
+        font-weight: bold !important;
+    }
+
+    /* FIX: File Uploader Instructions */
+    [data-testid="stFileUploadDropzoneInstructions"] div {
+        color: #ffffff !important;
     }
 </style>
 """
@@ -213,8 +162,8 @@ DASHBOARD_CSS = """
 def show_dashboard(user_id: str, user_email: str):
     def get_historical_audits(uid: str):
         try:
-            response = _get_supabase().table("scan_history").select("*").eq("user_id", uid).order("created_at", desc=True).limit(15).execute()
-            return pd.DataFrame(response.data) if response.data else None
+            res = _get_supabase().table("scan_history").select("*").eq("user_id", uid).order("created_at", desc=True).limit(10).execute()
+            return pd.DataFrame(res.data) if res.data else None
         except: return None
 
     def save_to_cloud(filename, risk, count):
@@ -222,28 +171,24 @@ def show_dashboard(user_id: str, user_email: str):
             _get_supabase().table("scan_history").insert({"filename": filename, "risk_status": risk, "phi_count": int(count), "user_id": user_id}).execute()
         except: pass
 
-    def _clear_batch():
-        st.session_state.batch_results = []; st.session_state.zip_buffer = None; st.session_state.uploader_key += 1
-
-    def _sign_out():
-        _get_supabase().auth.sign_out()
-        st.session_state.authenticated = False; st.session_state.user = None; st.rerun()
-
     st.markdown(DASHBOARD_CSS, unsafe_allow_html=True)
-    if st.session_state.audit_log is None:
-        st.session_state.audit_log = get_historical_audits(user_id)
-
+    
     with st.sidebar:
-        st.markdown("## Admin Portal")
-        st.markdown(f'<p class="sidebar-label">Operator</p><p class="sidebar-value">Katie Gray</p>', unsafe_allow_html=True)
-        st.markdown(f'<p class="sidebar-label">Account</p><p class="sidebar-value">{user_email}</p>', unsafe_allow_html=True)
-        if st.button("Sign Out"): _sign_out()
+        st.markdown("### Admin Portal")
+        st.write(f"**Operator:** Katie Gray")
+        st.write(f"**Account:** {user_email}")
+        if st.button("Sign Out"):
+            _get_supabase().auth.sign_out()
+            st.session_state.authenticated = False
+            st.rerun()
 
-    st.markdown('<div class="main-header"><h1>🛡️ Compliance Lite</h1><p>Enterprise PHI Detection</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="main-header"><h1 style="color:white; margin:0;">🛡️ Compliance Lite</h1><p style="color:white; opacity:0.8;">Enterprise PHI Detection</p></div>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
     with col1:
+        st.markdown("### Batch Processing")
         uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True, key=f"up_{st.session_state.uploader_key}")
+        
         if st.button("🛡️ Sanitize & Log Batch"):
             if uploaded_files:
                 zip_mem = io.BytesIO()
@@ -264,11 +209,17 @@ def show_dashboard(user_id: str, user_email: str):
 
     with col2:
         if st.session_state.batch_results:
+            st.markdown("### Results")
             st.download_button("📥 Download Sanitized ZIP", data=st.session_state.zip_buffer, file_name="Sanitized_Docs.zip")
             for item in st.session_state.batch_results:
-                with st.expander(f"{item['File']} - {item['Risk']}"): st.code(item["Preview"])
+                with st.expander(f"{item['File']} - {item['Risk']}"):
+                    st.code(item["Preview"])
 
     st.divider()
+    st.markdown("### Recent Activity Audit Log")
+    if st.session_state.audit_log is None:
+        st.session_state.audit_log = get_historical_audits(user_id)
+    
     if st.session_state.audit_log is not None:
         st.dataframe(st.session_state.audit_log, use_container_width=True, hide_index=True)
 
