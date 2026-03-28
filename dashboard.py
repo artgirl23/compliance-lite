@@ -7,7 +7,7 @@ from scanner import scan_for_phi
 # ── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Compliance Lite",
-    layout="centered",
+    layout="wide",
     page_icon="🛡️",
     initial_sidebar_state="expanded",
 )
