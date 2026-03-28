@@ -10,6 +10,8 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "user_email" not in st.session_state:
     st.session_state.user_email = ""
+if "user_id" not in st.session_state:
+    st.session_state.user_id = None          # Supabase UUID — never an email
 if "scan_result" not in st.session_state:
     st.session_state.scan_result = None
 
@@ -119,6 +121,7 @@ st.markdown("""
     border: none !important;
     opacity: 1 !important;
     visibility: visible !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
   }
   [data-testid="stSidebarCollapseButton"] button svg,
   [data-testid="stSidebarCollapsedControl"] svg,
@@ -137,7 +140,7 @@ st.markdown("""
   /* ── File uploader dropzone: dark navy background ── */
   [data-testid="stFileUploader"] section {
     background-color: #1e293b !important;
-    border: 2px dashed #334155 !important;
+    border: 2px solid #475569 !important;
     border-radius: 12px !important;
   }
   [data-testid="stFileUploaderDropzoneInstructions"],
@@ -240,6 +243,7 @@ def show_login():
             if response.user:
                 st.session_state.authenticated = True
                 st.session_state.user_email = email
+                st.session_state.user_id = response.user.id   # store UUID
                 st.rerun()
             else:
                 st.error("Authentication failed. Please check your credentials.")
@@ -331,7 +335,7 @@ def show_dashboard():
                             "filename":    f.name,
                             "risk_status": risk,
                             "phi_count":   phi_count,
-                            "user_id":     user_email,
+                            "user_id":     st.session_state.user_id,  # UUID, not email
                         }).execute()
                         count += 1
                     except Exception as e:
