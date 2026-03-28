@@ -52,7 +52,7 @@ st.markdown("""
 
   /* Dashboard banner */
   .main-banner {
-    background: #3b82f6;
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
     border-radius: 24px;
     padding: 48px 40px;
     text-align: center;
@@ -89,6 +89,18 @@ def show_login():
             justify-content: center;
             align-items: center;
         }
+        /* Remove default top padding from emotion containers */
+        .st-emotion-cache-z5fcl4, .st-emotion-cache-13ln4jf,
+        [data-testid="stAppViewBlockContainer"] {
+            padding-top: 0 !important;
+        }
+        /* Vertically center the login card */
+        [data-testid="stAppViewContainer"] > section > div {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 80vh;
+        }
         .block-container {
             background: rgba(255, 255, 255, 0.05) !important;
             backdrop-filter: blur(12px) !important;
@@ -98,13 +110,8 @@ def show_login():
             padding: 50px 40px !important;
             max-width: 450px !important;
             margin: auto !important;
-            position: relative !important;
-            top: 50%;
-            transform: translateY(20%);
         }
-        /* Hide the top padding/header gap */
         [data-testid="stHeader"] { display: none !important; }
-        div[data-testid="stVerticalBlock"] > div:first-child { margin-top: -50px !important; }
     </style>
     """, unsafe_allow_html=True)
 
@@ -141,7 +148,7 @@ def show_login():
     st.markdown("</div>", unsafe_allow_html=True)
 
     st.markdown(
-        "<p style='text-align:center; color:#64748b; font-size:0.85rem; margin-top:20px; font-family:monospace;'>"
+        "<p style='text-align:center; color:#94a3b8; font-size:0.8rem; margin-top:15px;'>"
         "demo@katiegray.design | Compliance2026</p>",
         unsafe_allow_html=True,
     )
@@ -178,7 +185,7 @@ def show_dashboard():
         <p style="margin:0;">Marketing &amp; UX Lead</p>
         <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
         <p style="margin:0;">{user_email}</p>
-        <p style="color:#22c55e;font-size:0.85rem;margin-top:10px;">● Cloud Connected</p>
+        <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">● Cloud Connected</p>
         """, unsafe_allow_html=True)
         st.write("")
         if st.button("Sign Out", use_container_width=True):
