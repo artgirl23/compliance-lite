@@ -34,7 +34,17 @@ st.markdown("""
 <style>
   /* === GLOBAL === */
   .stApp { background-color: #0f172a !important; color: #f8fafc !important; }
-  [data-testid="stHeader"] { display: none !important; }
+
+  /* Make header transparent (keep sidebar toggle functional — do NOT display:none) */
+  [data-testid="stHeader"] {
+    background: transparent !important;
+    border-bottom: none !important;
+  }
+  /* Hide only the Streamlit toolbar/branding inside the header */
+  [data-testid="stToolbar"],
+  [data-testid="stDecoration"] {
+    display: none !important;
+  }
 
   /* === TEXT INPUTS === */
   [data-testid="stTextInput"] input {
@@ -47,10 +57,13 @@ st.markdown("""
   [data-testid="stTextInput"] label { color: #94a3b8 !important; font-size: 0.85rem !important; }
 
   /* === SIDEBAR === */
-  [data-testid="stSidebar"] { background-color: #1e293b !important; }
+  [data-testid="stSidebar"] {
+    background-color: #1e293b !important;
+    display: flex !important;           /* force render */
+  }
+  /* Scope to p and span only — avoid overriding Streamlit structural divs */
   [data-testid="stSidebar"] p,
-  [data-testid="stSidebar"] span,
-  [data-testid="stSidebar"] div { color: #f8fafc; }
+  [data-testid="stSidebar"] span { color: #f8fafc; }
 
   /* Sidebar Sign Out = red */
   [data-testid="stSidebar"] button {
@@ -265,7 +278,7 @@ def show_dashboard():
         <p style="margin:0;">Marketing &amp; UX Lead</p>
         <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
         <p style="margin:0;">{user_email}</p>
-        <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">● Cloud Connected</p>
+        <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">🟢 Cloud Connected</p>
         """, unsafe_allow_html=True)
         st.write("")
         if st.button("Sign Out", use_container_width=True):
