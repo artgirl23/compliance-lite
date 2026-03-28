@@ -109,6 +109,68 @@ st.markdown("""
   /* ── Login header: force horizontal centering ── */
   .login-header { text-align: center !important; width: 100% !important; }
   .login-header * { text-align: center !important; }
+
+  /* ── Sidebar toggle chevron: always visible, brand blue ── */
+  [data-testid="stSidebarCollapseButton"] button,
+  [data-testid="stSidebarCollapsedControl"] button,
+  button[data-testid="stBaseButton-headerNoPadding"] {
+    background-color: #3b82f6 !important;
+    border-radius: 8px !important;
+    border: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  [data-testid="stSidebarCollapseButton"] button svg,
+  [data-testid="stSidebarCollapsedControl"] svg,
+  button[data-testid="stBaseButton-headerNoPadding"] svg {
+    fill: white !important;
+    stroke: white !important;
+  }
+  /* Keep toggle visible even when sidebar is collapsed */
+  [data-testid="stSidebarCollapsedControl"] {
+    background-color: #3b82f6 !important;
+    border-radius: 8px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* ── File uploader dropzone: dark navy background ── */
+  [data-testid="stFileUploader"] section {
+    background-color: #1e293b !important;
+    border: 2px dashed #334155 !important;
+    border-radius: 12px !important;
+  }
+  [data-testid="stFileUploaderDropzoneInstructions"],
+  [data-testid="stFileUploaderDropzoneInstructions"] span,
+  [data-testid="stFileUploaderDropzoneInstructions"] p,
+  [data-testid="stFileUploaderDropzoneInstructions"] small,
+  [data-testid="stFileUploader"] section p,
+  [data-testid="stFileUploader"] section span,
+  [data-testid="stFileUploader"] section small {
+    color: #e2e8f0 !important;
+  }
+
+  /* ── Hover glow on all primary action buttons ── */
+  .block-container button:hover {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6) !important;
+    transition: box-shadow 0.2s ease !important;
+  }
+  [data-testid="stSidebar"] button:hover {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6) !important;
+    transition: box-shadow 0.2s ease !important;
+  }
+
+  /* ── Dashboard banner: flex centering ── */
+  .main-banner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .main-banner h1, .main-banner p, .main-banner span {
+    text-align: center !important;
+    width: 100% !important;
+  }
 </style>
 """, unsafe_allow_html=True)
 
@@ -274,8 +336,9 @@ def show_dashboard():
                         count += 1
                     except Exception as e:
                         errors.append(f"{f.name}: {e}")
-            # Persist result in session state so it survives future reruns
+            # Persist result then rerun so audit log refreshes with new rows
             st.session_state.scan_result = {"count": count, "errors": errors}
+            st.rerun()
 
     # Display last scan result (persists via session state)
     if st.session_state.scan_result:
