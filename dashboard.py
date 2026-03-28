@@ -78,8 +78,11 @@ st.markdown("""
     stroke: white !important;
   }
   [data-testid="stSidebarCollapsedControl"] {
+    visibility: visible !important;
+    display: block !important;
     background-color: #3b82f6 !important;
-    border-radius: 8px !important;
+    border-radius: 5px !important;
+    color: white !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
   }
 
@@ -249,25 +252,9 @@ def show_login():
 
 # ── DASHBOARD ─────────────────────────────────────────────────────────────────
 def show_dashboard():
-    # Expand block-container for dashboard
-    st.markdown("""
-    <style>
-      .block-container {
-        background: transparent !important;
-        backdrop-filter: none !important;
-        -webkit-backdrop-filter: none !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 1.5rem 2rem !important;
-        max-width: 1400px !important;
-        margin-top: 0 !important;
-      }
-    </style>
-    """, unsafe_allow_html=True)
-
     user_email = st.session_state.get("user_email") or "demo@katiegray.design"
 
-    # ── Sidebar ── (top-level, no conditionals)
+    # ── Sidebar — rendered FIRST, no conditionals ─────────────────────────────
     with st.sidebar:
         st.markdown("🛡️")
         st.markdown("### Admin Portal")
@@ -287,6 +274,22 @@ def show_dashboard():
             st.session_state.user_id       = None
             st.session_state.scan_result   = None
             st.rerun()
+
+    # Expand block-container for dashboard
+    st.markdown("""
+    <style>
+      .block-container {
+        background: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 1.5rem 2rem !important;
+        max-width: 1400px !important;
+        margin-top: 0 !important;
+      }
+    </style>
+    """, unsafe_allow_html=True)
 
     # ── Banner ────────────────────────────────────────────────────────────────
     st.markdown("""
