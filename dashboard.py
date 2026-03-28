@@ -10,6 +10,8 @@ if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "user_email" not in st.session_state:
     st.session_state.user_email = ""
+if "scan_result" not in st.session_state:
+    st.session_state.scan_result = None
 
 # ── DATABASE ───────────────────────────────────────────────────────────────────
 @st.cache_resource
@@ -74,6 +76,39 @@ st.markdown("""
   .login-signin button {
     background-color: #3b82f6 !important;
   }
+
+  /* ── File uploader: light text so filenames are readable ── */
+  [data-testid="stFileUploaderFile"],
+  [data-testid="stFileUploaderFileName"],
+  [data-testid="stFileUploaderFileData"],
+  [data-testid="stFileUploader"] span,
+  [data-testid="stFileUploader"] p,
+  [data-testid="stFileUploader"] small {
+    color: #e2e8f0 !important;
+  }
+
+  /* ── File uploader delete button: subtle, no red circle ── */
+  [data-testid="stFileUploaderDeleteBtn"] button {
+    background-color: transparent !important;
+    border: none !important;
+    color: #94a3b8 !important;
+    border-radius: 50% !important;
+    padding: 2px 6px !important;
+    font-size: 0.85rem !important;
+    box-shadow: none !important;
+  }
+  [data-testid="stFileUploaderDeleteBtn"] button:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: #f8fafc !important;
+  }
+  [data-testid="stFileUploaderDeleteBtn"] button svg {
+    fill: #94a3b8 !important;
+    stroke: #94a3b8 !important;
+  }
+
+  /* ── Login header: force horizontal centering ── */
+  .login-header { text-align: center !important; width: 100% !important; }
+  .login-header * { text-align: center !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -116,12 +151,17 @@ def show_login():
     """, unsafe_allow_html=True)
 
     st.markdown("""
-    <div style="text-align:center; padding-bottom: 20px;">
-      <span style="font-size:3.5rem;">🛡️</span>
-      <h1 style="color:#f8fafc; font-weight:800; font-size:2rem; margin:10px 0 2px; letter-spacing:-0.02em;">
+    <div class="login-header" style="text-align:center; padding-bottom:20px; width:100%;">
+      <div style="display:flex; justify-content:center; align-items:center; width:100%;">
+        <span style="font-size:3.5rem; display:block; text-align:center;">🛡️</span>
+      </div>
+      <h1 style="color:#f8fafc; font-weight:800; font-size:2rem; margin:10px 0 2px;
+                 letter-spacing:-0.02em; text-align:center; width:100%;">
         Compliance Lite
       </h1>
-      <p style="color:#94a3b8; font-size:1rem; margin:0; font-weight:400;">Enterprise PHI Detection</p>
+      <p style="color:#94a3b8; font-size:1rem; margin:0; font-weight:400; text-align:center;">
+        Enterprise PHI Detection
+      </p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -208,13 +248,16 @@ def show_dashboard():
         "Upload files for scanning",
         accept_multiple_files=True,
         label_visibility="collapsed",
+        key="batch_uploader",
     )
 
     if st.button("🛡️ Sanitize & Log Batch"):
         if not uploaded_files:
             st.warning("Please upload at least one file first.")
         else:
-            with st.spinner("Scanning and logging…"):
+            # Clear previous result before new scan
+            st.session_state.scan_result = None
+            with st.spinner("Scanning for PHI..."):
                 errors, count = [], 0
                 for f in uploaded_files:
                     try:
@@ -231,11 +274,16 @@ def show_dashboard():
                         count += 1
                     except Exception as e:
                         errors.append(f"{f.name}: {e}")
-            if errors:
-                st.error("Errors: " + "; ".join(errors))
-            else:
-                st.success(f"✅ {count} file(s) sanitized and logged.")
-            st.rerun()
+            # Persist result in session state so it survives future reruns
+            st.session_state.scan_result = {"count": count, "errors": errors}
+
+    # Display last scan result (persists via session state)
+    if st.session_state.scan_result:
+        r = st.session_state.scan_result
+        if r["errors"]:
+            st.error("Errors: " + "; ".join(r["errors"]))
+        else:
+            st.success(f"✅ {r['count']} file(s) sanitized and logged.")
 
     # ── Audit Log ─────────────────────────────────────────────────────────────
     st.markdown("---")
