@@ -93,16 +93,35 @@ st.markdown("""
     border: none !important;
   }
 
-  /* Sidebar collapse/expand toggle arrow → bright blue so it's visible on dark bg */
-  [data-testid="stSidebarCollapseButton"] button {
+  /* Sidebar button hover states */
+  [data-testid="stSidebar"] button:hover {
+    background-color: #334155 !important;
+    transition: background-color 0.15s ease !important;
+  }
+  [data-testid="stSidebar"] button[kind="primary"]:hover,
+  [data-testid="stSidebar"] button[data-testid="stBaseButton-primary"]:hover {
+    background-color: #f87171 !important;
+    transition: background-color 0.15s ease !important;
+  }
+
+  /* Sidebar collapse/expand toggle — cover all known Streamlit testid variants */
+  [data-testid="stSidebarCollapseButton"] button,
+  [data-testid="stSidebarCollapsedControl"] button,
+  [data-testid="collapsedControl"] button,
+  [data-testid="stSidebarCollapseByFrame"] button {
     background-color: #1e293b !important;
     border: 1px solid #334155 !important;
+    border-radius: 6px !important;
   }
+  /* Arrow SVG → white so it pops on the dark background */
   [data-testid="stSidebarCollapseButton"] button svg,
-  [data-testid="stSidebarCollapsedControl"] button svg {
-    fill: #3b82f6 !important;
-    stroke: #3b82f6 !important;
-    color: #3b82f6 !important;
+  [data-testid="stSidebarCollapsedControl"] button svg,
+  [data-testid="stSidebarCollapsedControl"] svg,
+  [data-testid="collapsedControl"] svg,
+  [data-testid="stSidebarCollapseByFrame"] button svg {
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+    color: #ffffff !important;
   }
 
   /* === DASHBOARD BANNER === */
@@ -208,6 +227,20 @@ def show_login():
         border: none !important;
         border-radius: 10px !important;
         font-weight: 700 !important;
+      }
+      /* Exception: password eye icon must NOT get the blue background */
+      [data-testid="stTextInput"] button,
+      [data-testid="stPasswordInputVisibilityToggle"] {
+        background-color: transparent !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: transparent !important;
+      }
+      [data-testid="stTextInput"] button svg,
+      [data-testid="stPasswordInputVisibilityToggle"] svg {
+        fill: #3b82f6 !important;
+        stroke: #3b82f6 !important;
       }
     </style>
     """, unsafe_allow_html=True)
@@ -322,15 +355,19 @@ def show_dashboard():
       .block-container button[data-testid="stBaseButton-secondary"]:hover {
         background-color: #475569 !important;
       }
-      /* Download button → blue. Placed AFTER secondary rule so cascade wins. */
-      [data-testid="stDownloadButton"] button {
+      /* Download button → blue.
+         Uses .block-container prefix to match specificity (0,2,1) of the secondary rule above,
+         then wins by cascade position (comes after). */
+      .block-container [data-testid="stDownloadButton"] button,
+      .stDownloadButton button {
         background-color: #3b82f6 !important;
         color: #ffffff !important;
         border: none !important;
         border-radius: 10px !important;
         font-weight: 700 !important;
       }
-      [data-testid="stDownloadButton"] button:hover {
+      .block-container [data-testid="stDownloadButton"] button:hover,
+      .stDownloadButton button:hover {
         background-color: #2563eb !important;
       }
     </style>
