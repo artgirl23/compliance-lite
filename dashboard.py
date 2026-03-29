@@ -56,22 +56,24 @@ st.markdown("""
   }
   [data-testid="stTextInput"] label { color: #94a3b8 !important; font-size: 0.85rem !important; }
 
-  /* === SIDEBAR — FORCE VISIBLE === */
+  /* === SIDEBAR === */
   [data-testid="stSidebar"] {
     background-color: #0f172a !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    transform: none !important;
-    min-width: 244px !important;
-    max-width: 244px !important;
+    /* NO transform/min-width/max-width overrides — let Streamlit's toggle animate freely */
   }
   [data-testid="stSidebar"] > div:first-child {
     background-color: #0f172a !important;
     padding-top: 1.5rem !important;
   }
+  /* Force ALL text in sidebar to be white/bright regardless of element type */
   [data-testid="stSidebar"] p,
-  [data-testid="stSidebar"] span { color: #f8fafc !important; }
+  [data-testid="stSidebar"] span,
+  [data-testid="stSidebar"] h1,
+  [data-testid="stSidebar"] h2,
+  [data-testid="stSidebar"] h3,
+  [data-testid="stSidebar"] h4,
+  [data-testid="stSidebar"] div,
+  [data-testid="stSidebar"] label { color: #ffffff !important; }
 
   /* Sidebar buttons: dark outlined */
   [data-testid="stSidebar"] button {
@@ -90,9 +92,9 @@ st.markdown("""
     color: white !important;
     border: none !important;
   }
-  /* Secondary buttons (Clear Batch) → gray */
+  /* Secondary buttons (Clear Batch) → medium gray */
   .block-container button[kind="secondary"] {
-    background-color: #475569 !important;
+    background-color: #64748b !important;
     color: white !important;
     border: none !important;
   }
@@ -301,13 +303,13 @@ def show_dashboard():
         st.markdown("🛡️")
         st.markdown("### Admin Portal")
         st.markdown(f"""
-        <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:14px 0 2px;">OPERATOR</p>
-        <p style="margin:0;color:#f8fafc;">Katie Gray</p>
-        <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ROLE</p>
-        <p style="margin:0;color:#f8fafc;">Marketing &amp; UX Lead</p>
-        <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
-        <p style="margin:0;color:#f8fafc;">{user_email}</p>
-        <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">● Cloud Connected</p>
+        <p style="font-size:0.7rem;color:#bfdbfe;text-transform:uppercase;font-weight:700;margin:14px 0 2px;">OPERATOR</p>
+        <p style="margin:0;color:#ffffff;">Katie Gray</p>
+        <p style="font-size:0.7rem;color:#bfdbfe;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ROLE</p>
+        <p style="margin:0;color:#ffffff;">Marketing &amp; UX Lead</p>
+        <p style="font-size:0.7rem;color:#bfdbfe;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
+        <p style="margin:0;color:#ffffff;">{user_email}</p>
+        <p style="color:#60a5fa;font-size:0.85rem;margin-top:10px;">● Cloud Connected</p>
         """, unsafe_allow_html=True)
         st.write("")
         if st.button("📋 New Batch Scan", use_container_width=True):
