@@ -75,7 +75,7 @@ st.markdown("""
   [data-testid="stSidebar"] div,
   [data-testid="stSidebar"] label { color: #ffffff !important; }
 
-  /* Sidebar buttons: dark outlined */
+  /* Sidebar buttons: dark outlined (default / New Batch Scan) */
   [data-testid="stSidebar"] button {
     background-color: #1e293b !important;
     color: #f8fafc !important;
@@ -84,18 +84,24 @@ st.markdown("""
     font-weight: 600 !important;
     width: 100% !important;
   }
+  /* Sign Out = primary type → red */
+  [data-testid="stSidebar"] button[kind="primary"] {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    border: none !important;
+  }
 
   /* === MAIN CONTENT BUTTON COLORS === */
   /* Primary buttons (Sanitize & Log Batch) → red */
   .block-container button[kind="primary"] {
     background-color: #ef4444 !important;
-    color: white !important;
+    color: #ffffff !important;
     border: none !important;
   }
-  /* Secondary buttons (Clear Batch) → medium gray */
+  /* Secondary buttons (Clear Batch) → light gray with dark text */
   .block-container button[kind="secondary"] {
-    background-color: #64748b !important;
-    color: white !important;
+    background-color: #e5e7eb !important;
+    color: #111827 !important;
     border: none !important;
   }
 
@@ -316,14 +322,12 @@ def show_dashboard():
             st.session_state.scan_result  = None
             st.session_state.uploader_key += 1
             st.rerun()
-        st.markdown('<div class="sign-out-btn">', unsafe_allow_html=True)
-        if st.button("Sign Out", use_container_width=True):
+        if st.button("Sign Out", use_container_width=True, type="primary"):
             st.session_state.authenticated = False
             st.session_state.user_email    = ""
             st.session_state.user_id       = None
             st.session_state.scan_result   = None
             st.rerun()
-        st.markdown('</div>', unsafe_allow_html=True)
 
     # Expand block-container for dashboard
     st.markdown("""
