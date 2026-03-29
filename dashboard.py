@@ -283,19 +283,11 @@ def show_login():
 
 
     st.markdown("""
-    <div class="login-header" style="text-align:center; padding-bottom:20px; width:100%;">
-      <div style="text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;">
-        <span style="font-size:3.5rem; display:block;">🛡️</span>
-        <h1 style="color:#f8fafc; font-weight:800; font-size:2rem; margin:10px 0 2px;
-                   letter-spacing:-0.02em;">
-          Compliance Lite
-        </h1>
-        <p style="color:#94a3b8; font-size:1rem; margin:0; font-weight:400;">
-          Enterprise PHI Detection
-        </p>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
+<div style='text-align: center; width: 100%;'>
+    <h1 style='margin-bottom: 0;'>🛡️ Compliance Lite</h1>
+    <p style='margin-top: 0; color: #94a3b8; width: 100%; text-align: center; display: block;'>Enterprise PHI Detection</p>
+</div>
+""", unsafe_allow_html=True)
 
 
     email    = st.text_input("Email", value="demo@katiegray.design", key="login_email")
