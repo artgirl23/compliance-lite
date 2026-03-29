@@ -287,13 +287,15 @@ def show_login():
       <div style="display:flex; justify-content:center; align-items:center; width:100%;">
         <span style="font-size:3.5rem; display:block;">🛡️</span>
       </div>
-      <h1 style="color:#f8fafc; font-weight:800; font-size:2rem; margin:10px 0 2px;
-                 letter-spacing:-0.02em; text-align:center; width:100%;">
-        Compliance Lite
-      </h1>
-      <p style="color:#94a3b8; font-size:1rem; margin:0; font-weight:400; text-align:center;">
-        Enterprise PHI Detection
-      </p>
+      <div style="text-align:center; width:100%;">
+        <h1 style="color:#f8fafc; font-weight:800; font-size:2rem; margin:10px 0 2px;
+                   letter-spacing:-0.02em;">
+          Compliance Lite
+        </h1>
+        <p style="color:#94a3b8; font-size:1rem; margin:0; font-weight:400;">
+          Enterprise PHI Detection
+        </p>
+      </div>
     </div>
     """, unsafe_allow_html=True)
 
