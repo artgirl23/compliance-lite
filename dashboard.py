@@ -86,4 +86,79 @@ st.markdown("""
     border: 1px solid #334155 !important;
     border-radius: 10px !important;
     font-weight: 600 !important;
-    width: 100% !important
+    width: 100% !important;
+  }
+  [data-testid="stSidebar"] button[kind="primary"] {
+    background-color: #ef4444 !important;
+    color: #ffffff !important;
+    border: none !important;
+  }
+
+  /* FIX: THE LIGHT GRAY TOGGLE ARROW (VISIBLE WHEN COLLAPSED) */
+  [data-testid="collapsedControl"] svg,
+  button[data-testid="stSidebarCollapseByFrame"] svg,
+  [data-testid="stSidebarCollapseButton"] svg {
+    fill: #d1d5db !important;
+    color: #d1d5db !important;
+    stroke: #d1d5db !important;
+  }
+
+  /* === DASHBOARD BANNER === */
+  .main-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
+    border-radius: 24px;
+    padding: 48px 40px;
+    margin-bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .main-banner h1 {
+    color: white !important;
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin: 8px 0 6px;
+    text-align: center !important;
+    width: 100% !important;
+  }
+  .main-banner p {
+    color: rgba(255,255,255,0.85) !important;
+    font-size: 1rem;
+    margin: 0;
+    text-align: center !important;
+  }
+
+  /* === LOGIN CARD CENTERING FIX === */
+  .login-header, .login-header * {
+    text-align: center !important;
+    width: 100% !important;
+    display: block !important;
+  }
+</style>
+""", unsafe_allow_html=True)
+
+
+# ── LOGIN ──────────────────────────────────────────────────────────────────────
+def show_login():
+    st.markdown("""
+    <style>
+      .block-container {
+        background: rgba(255, 255, 255, 0.05) !important;
+        backdrop-filter: blur(12px) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 28px !important;
+        padding: 50px 40px !important;
+        max-width: 450px !important;
+        margin: auto !important;
+      }
+      /* Center all markdown text in the login modal */
+      .block-container [data-testid="stMarkdownContainer"],
+      .block-container [data-testid="stMarkdownContainer"] p,
+      .block-container [data-testid="stMarkdownContainer"] h1 {
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+      }
+      /* Force Sign In button to Blue */
+      .block-
