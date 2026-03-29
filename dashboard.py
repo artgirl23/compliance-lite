@@ -236,6 +236,13 @@ st.markdown("""
   /* === LOGIN CARD CENTERING === */
   .login-header { text-align: center !important; width: 100% !important; }
   .login-header * { text-align: center !important; }
+
+  /* FORCE SIDEBAR TO BE VISIBLE */
+  [data-testid='stSidebar'][aria-expanded='false'] {
+    margin-left: 0px !important;
+    transform: none !important;
+    width: 260px !important;
+  }
 </style>
 """, unsafe_allow_html=True)
 
