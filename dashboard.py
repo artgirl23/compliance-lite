@@ -29,6 +29,29 @@ if "uploader_key" not in st.session_state:
 def get_supabase() -> Client:
     return create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 
+# ── SIDEBAR (top-level — outside ALL conditionals and functions) ───────────────
+with st.sidebar:
+    st.error("!!! SIDEBAR DEBUG: IF YOU SEE THIS, THE SIDEBAR IS WORKING !!!")
+    st.markdown("🛡️")
+    st.markdown("### Admin Portal")
+    _email = st.session_state.get("user_email") or "demo@katiegray.design"
+    st.markdown(f"""
+    <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:14px 0 2px;">OPERATOR</p>
+    <p style="margin:0;color:#f8fafc;">Katie Gray</p>
+    <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ROLE</p>
+    <p style="margin:0;color:#f8fafc;">Marketing &amp; UX Lead</p>
+    <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
+    <p style="margin:0;color:#f8fafc;">{_email}</p>
+    <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">🟢 Cloud Connected</p>
+    """, unsafe_allow_html=True)
+    st.write("")
+    if st.session_state.get("authenticated") and st.button("Sign Out", use_container_width=True):
+        st.session_state.authenticated = False
+        st.session_state.user_email    = ""
+        st.session_state.user_id       = None
+        st.session_state.scan_result   = None
+        st.rerun()
+
 # ── GLOBAL CSS ─────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
@@ -266,27 +289,6 @@ def show_login():
 # ── DASHBOARD ─────────────────────────────────────────────────────────────────
 def show_dashboard():
     user_email = st.session_state.get("user_email") or "demo@katiegray.design"
-
-    # ── Sidebar — rendered FIRST, no conditionals ─────────────────────────────
-    with st.sidebar:
-        st.markdown("🛡️")
-        st.markdown("### Admin Portal")
-        st.markdown(f"""
-        <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:14px 0 2px;">OPERATOR</p>
-        <p style="margin:0;">Katie Gray</p>
-        <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ROLE</p>
-        <p style="margin:0;">Marketing &amp; UX Lead</p>
-        <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
-        <p style="margin:0;">{user_email}</p>
-        <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">🟢 Cloud Connected</p>
-        """, unsafe_allow_html=True)
-        st.write("")
-        if st.button("Sign Out", use_container_width=True):
-            st.session_state.authenticated = False
-            st.session_state.user_email    = ""
-            st.session_state.user_id       = None
-            st.session_state.scan_result   = None
-            st.rerun()
 
     # Expand block-container for dashboard
     st.markdown("""
