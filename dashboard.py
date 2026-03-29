@@ -365,7 +365,6 @@ def show_login():
 
 # ── DASHBOARD ─────────────────────────────────────────────────────────────────
 def show_dashboard():
-    st.session_state.sidebar_state = 'expanded'
     user_email = st.session_state.get("user_email") or "demo@katiegray.design"
 
 
@@ -620,6 +619,7 @@ def show_dashboard():
 
 # ── ROUTER ─────────────────────────────────────────────────────────────────────
 if st.session_state.authenticated:
+    st.session_state.sidebar_state = 'expanded'
     show_dashboard()
 else:
     show_login()
