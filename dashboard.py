@@ -104,7 +104,7 @@ st.markdown("""
     transition: background-color 0.15s ease !important;
   }
 
-  /* Sidebar collapse/expand toggle — cover all known Streamlit testid variants */
+  /* Sidebar collapse/expand toggle buttons */
   [data-testid="stSidebarCollapseButton"] button,
   [data-testid="stSidebarCollapsedControl"] button,
   [data-testid="collapsedControl"] button,
@@ -112,15 +112,20 @@ st.markdown("""
     background-color: #1e293b !important;
     border: 1px solid #334155 !important;
     border-radius: 6px !important;
+    color: #d1d5db !important; /* sets currentColor for SVGs that use it */
   }
-  /* Arrow SVG → light gray, visible on dark navy */
-  [data-testid="stSidebarCollapseButton"] button svg,
-  [data-testid="stSidebarCollapsedControl"] button svg,
-  [data-testid="stSidebarCollapsedControl"] svg,
+  /* Arrow SVG → #d1d5db light gray. Targets svg, path, and all children
+     to catch both fill="currentColor" and explicit fill attributes. */
   [data-testid="collapsedControl"] svg,
-  [data-testid="collapsedControl"] button svg,
-  [data-testid="stSidebarCollapseByFrame"] svg,
-  [data-testid="stSidebarCollapseByFrame"] button svg {
+  [data-testid="collapsedControl"] svg path,
+  [data-testid="collapsedControl"] svg *,
+  button[data-testid="stSidebarCollapseByFrame"] svg,
+  button[data-testid="stSidebarCollapseByFrame"] svg path,
+  button[data-testid="stSidebarCollapseByFrame"] svg *,
+  [data-testid="stSidebarCollapseButton"] button svg,
+  [data-testid="stSidebarCollapseButton"] button svg path,
+  [data-testid="stSidebarCollapsedControl"] svg,
+  [data-testid="stSidebarCollapsedControl"] svg path {
     fill: #d1d5db !important;
     stroke: #d1d5db !important;
     color: #d1d5db !important;
@@ -230,12 +235,19 @@ def show_login():
         border-radius: 10px !important;
         font-weight: 700 !important;
       }
-      /* Force heading & subheading to center regardless of Streamlit wrapper alignment */
-      .block-container h1,
-      .block-container h2,
-      .block-container h3,
+      /* Center login text: target Streamlit's own markdown wrapper which sits above
+         .login-header and applies text-align:left by default */
+      .block-container [data-testid="stMarkdownContainer"],
+      .block-container [data-testid="stMarkdownContainer"] h1,
+      .block-container [data-testid="stMarkdownContainer"] h2,
+      .block-container [data-testid="stMarkdownContainer"] h3,
+      .block-container [data-testid="stMarkdownContainer"] p,
+      .login-header,
       .login-header h1,
-      .login-header p { text-align: center !important; width: 100% !important; }
+      .login-header p {
+        text-align: center !important;
+        width: 100% !important;
+      }
       /* Exception: password eye icon must NOT get the blue background */
       [data-testid="stTextInput"] button,
       [data-testid="stPasswordInputVisibilityToggle"] {
