@@ -56,14 +56,24 @@ st.markdown("""
   }
   [data-testid="stTextInput"] label { color: #94a3b8 !important; font-size: 0.85rem !important; }
 
-  /* === SIDEBAR === */
+  /* === SIDEBAR — FORCE VISIBLE === */
   [data-testid="stSidebar"] {
-    background-color: #0f172a !important;  /* dark navy, matches screenshot */
+    background-color: #0f172a !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: none !important;
+    min-width: 244px !important;
+    max-width: 244px !important;
+  }
+  [data-testid="stSidebar"] > div:first-child {
+    background-color: #0f172a !important;
+    padding-top: 1.5rem !important;
   }
   [data-testid="stSidebar"] p,
-  [data-testid="stSidebar"] span { color: #f8fafc; }
+  [data-testid="stSidebar"] span { color: #f8fafc !important; }
 
-  /* Sidebar buttons: dark outlined (New Batch Scan style) */
+  /* Sidebar buttons: dark outlined */
   [data-testid="stSidebar"] button {
     background-color: #1e293b !important;
     color: #f8fafc !important;
@@ -72,13 +82,15 @@ st.markdown("""
     font-weight: 600 !important;
     width: 100% !important;
   }
-  /* Sign Out specifically = red */
-  [data-testid="stSidebar"] .sign-out-btn button {
+
+  /* === MAIN CONTENT BUTTON COLORS === */
+  /* Primary buttons (Sanitize & Log Batch) → red */
+  .block-container button[kind="primary"] {
     background-color: #ef4444 !important;
+    color: white !important;
     border: none !important;
   }
-
-  /* Gray secondary buttons (Clear Batch) */
+  /* Secondary buttons (Clear Batch) → gray */
   .block-container button[kind="secondary"] {
     background-color: #475569 !important;
     color: white !important;
@@ -136,17 +148,18 @@ st.markdown("""
     text-align: center !important;
   }
 
-  /* === MAIN CONTENT BUTTONS (red) === */
+  /* === MAIN CONTENT BUTTONS (base) === */
   .block-container button {
-    background-color: #ef4444 !important;
-    color: white !important;
-    border: none !important;
     border-radius: 10px !important;
     font-weight: 700 !important;
   }
 
   /* Sign In is blue */
-  .login-signin button { background-color: #3b82f6 !important; }
+  .login-signin button {
+    background-color: #3b82f6 !important;
+    color: white !important;
+    border: none !important;
+  }
 
   /* Download button is brand blue (st.download_button renders as stDownloadButton) */
   .stDownloadButton button {
@@ -344,7 +357,7 @@ def show_dashboard():
         key=f"batch_uploader_{st.session_state.uploader_key}",
     )
 
-    if st.button("🛡️ Sanitize & Log Batch"):
+    if st.button("🛡️ Sanitize & Log Batch", type="primary"):
         if not uploaded_files:
             st.warning("Please upload at least one file first.")
         else:
@@ -407,7 +420,7 @@ def show_dashboard():
 
             btn_col1, btn_col2 = st.columns([1, 1])
             with btn_col1:
-                st.download_button(
+                downloaded = st.download_button(
                     label="⬇ Download Sanitized Batch (.zip)",
                     data=zip_buf,
                     file_name="sanitized_batch.zip",
@@ -415,10 +428,12 @@ def show_dashboard():
                     use_container_width=True,
                 )
             with btn_col2:
-                if st.button("🗑 Clear Batch", use_container_width=True, type="secondary"):
-                    st.session_state.scan_result  = None
-                    st.session_state.uploader_key += 1
-                    st.rerun()
+                clear_clicked = st.button("🗑 Clear Batch", use_container_width=True, type="secondary")
+
+            if downloaded or clear_clicked:
+                st.session_state.scan_result  = None
+                st.session_state.uploader_key += 1
+                st.rerun()
 
     # ── Audit Log ─────────────────────────────────────────────────────────────
     st.markdown("---")
