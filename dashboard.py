@@ -113,15 +113,17 @@ st.markdown("""
     border: 1px solid #334155 !important;
     border-radius: 6px !important;
   }
-  /* Arrow SVG → white so it pops on the dark background */
+  /* Arrow SVG → light gray, visible on dark navy */
   [data-testid="stSidebarCollapseButton"] button svg,
   [data-testid="stSidebarCollapsedControl"] button svg,
   [data-testid="stSidebarCollapsedControl"] svg,
   [data-testid="collapsedControl"] svg,
+  [data-testid="collapsedControl"] button svg,
+  [data-testid="stSidebarCollapseByFrame"] svg,
   [data-testid="stSidebarCollapseByFrame"] button svg {
-    fill: #ffffff !important;
-    stroke: #ffffff !important;
-    color: #ffffff !important;
+    fill: #d1d5db !important;
+    stroke: #d1d5db !important;
+    color: #d1d5db !important;
   }
 
   /* === DASHBOARD BANNER === */
