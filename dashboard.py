@@ -365,6 +365,7 @@ def show_login():
 
 # ── DASHBOARD ─────────────────────────────────────────────────────────────────
 def show_dashboard():
+    st.session_state.sidebar_state = 'expanded'
     user_email = st.session_state.get("user_email") or "demo@katiegray.design"
 
 
