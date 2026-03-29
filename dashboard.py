@@ -284,9 +284,11 @@ def show_login():
 
     st.markdown("""
 <div style='display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center;'>
-    <div style='font-size: 3rem; margin-bottom: 10px;'>🛡️</div>
-    <h1 style='margin: 0; padding: 0;'>Compliance Lite</h1>
-    <p style='margin: 5px 0 20px 0; color: #94a3b8;'>Enterprise PHI Detection</p>
+    <div style='font-size: 3.5rem; margin-bottom: 15px;'>🛡️</div>
+    <div style='margin-left: 4px;'>
+        <h1 style='margin: 0; padding: 0; line-height: 1.2;'>Compliance Lite</h1>
+        <p style='margin: 5px 0 25px 0; color: #94a3b8;'>Enterprise PHI Detection</p>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 
