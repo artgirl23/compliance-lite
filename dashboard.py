@@ -88,14 +88,14 @@ st.markdown("""
   [data-testid="stSidebar"] > div:first-child {
     background-color: #0f172a !important;
   }
-  /* Sidebar text → white (do NOT target div — that breaks toggle internals) */
+  /* Sidebar text → light gray (do NOT target div — that breaks toggle internals) */
   [data-testid="stSidebar"] p,
   [data-testid="stSidebar"] span,
   [data-testid="stSidebar"] h1,
   [data-testid="stSidebar"] h2,
   [data-testid="stSidebar"] h3,
   [data-testid="stSidebar"] h4,
-  [data-testid="stSidebar"] label { color: #ffffff !important; }
+  [data-testid="stSidebar"] label { color: #d1d5db !important; }
 
 
 
@@ -144,21 +144,16 @@ st.markdown("""
     border-radius: 6px !important;
     color: #d1d5db !important; /* sets currentColor for SVGs that use it */
   }
-  /* Arrow SVG → #d1d5db light gray. Targets svg, path, and all children
-     to catch both fill="currentColor" and explicit fill attributes. */
-  [data-testid="collapsedControl"] svg,
-  [data-testid="collapsedControl"] svg path,
-  [data-testid="collapsedControl"] svg *,
+  /* OVERRIDE: Force Toggle Arrow Visibility */
+  div[data-testid="collapsedControl"] svg,
   button[data-testid="stSidebarCollapseByFrame"] svg,
-  button[data-testid="stSidebarCollapseByFrame"] svg path,
-  button[data-testid="stSidebarCollapseByFrame"] svg *,
-  [data-testid="stSidebarCollapseButton"] button svg,
-  [data-testid="stSidebarCollapseButton"] button svg path,
-  [data-testid="stSidebarCollapsedControl"] svg,
-  [data-testid="stSidebarCollapsedControl"] svg path {
+  [data-testid="stSidebarCollapseButton"] svg {
     fill: #d1d5db !important;
-    stroke: #d1d5db !important;
     color: #d1d5db !important;
+    stroke: #d1d5db !important;
+    stroke-width: 2 !important;
+    opacity: 1 !important;
+    display: block !important;
   }
 
 
