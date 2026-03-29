@@ -284,10 +284,8 @@ def show_login():
 
     st.markdown("""
     <div class="login-header" style="text-align:center; padding-bottom:20px; width:100%;">
-      <div style="display:flex; justify-content:center; align-items:center; width:100%;">
+      <div style="text-align: center; width: 100%; display: flex; flex-direction: column; align-items: center;">
         <span style="font-size:3.5rem; display:block;">🛡️</span>
-      </div>
-      <div style="text-align:center; width:100%;">
         <h1 style="color:#f8fafc; font-weight:800; font-size:2rem; margin:10px 0 2px;
                    letter-spacing:-0.02em;">
           Compliance Lite
