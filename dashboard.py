@@ -124,21 +124,16 @@ st.markdown("""
     border-radius: 6px !important;
     color: #d1d5db !important; /* sets currentColor for SVGs that use it */
   }
-  /* Arrow SVG → #d1d5db light gray. Targets svg, path, and all children
-     to catch both fill="currentColor" and explicit fill attributes. */
-  [data-testid="collapsedControl"] svg,
-  [data-testid="collapsedControl"] svg path,
-  [data-testid="collapsedControl"] svg *,
+  /* OVERRIDE: Force Toggle Arrow Visibility */
+  div[data-testid="collapsedControl"] svg,
   button[data-testid="stSidebarCollapseByFrame"] svg,
-  button[data-testid="stSidebarCollapseByFrame"] svg path,
-  button[data-testid="stSidebarCollapseByFrame"] svg *,
-  [data-testid="stSidebarCollapseButton"] button svg,
-  [data-testid="stSidebarCollapseButton"] button svg path,
-  [data-testid="stSidebarCollapsedControl"] svg,
-  [data-testid="stSidebarCollapsedControl"] svg path {
+  [data-testid="stSidebarCollapseButton"] svg {
     fill: #d1d5db !important;
-    stroke: #d1d5db !important;
     color: #d1d5db !important;
+    stroke: #d1d5db !important;
+    stroke-width: 2 !important;
+    opacity: 1 !important;
+    display: block !important;
   }
 
 
