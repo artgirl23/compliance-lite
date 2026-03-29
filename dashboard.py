@@ -5,6 +5,8 @@ from supabase import create_client, Client
 from scanner import scan_for_phi
 
 
+
+
 # ── PAGE CONFIG ────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Compliance Lite",
@@ -12,6 +14,8 @@ st.set_page_config(
     page_icon="🛡️",
     initial_sidebar_state="expanded",
 )
+
+
 
 
 # ── SESSION STATE ──────────────────────────────────────────────────────────────
@@ -27,10 +31,14 @@ if "uploader_key" not in st.session_state:
     st.session_state.uploader_key = 0        # Increment to reset file uploader
 
 
+
+
 # ── DATABASE ───────────────────────────────────────────────────────────────────
 @st.cache_resource
 def get_supabase() -> Client:
     return create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
+
+
 
 
 # ── GLOBAL CSS ─────────────────────────────────────────────────────────────────
@@ -40,12 +48,16 @@ st.markdown("""
   .stApp { background-color: #0f172a !important; color: #f8fafc !important; }
 
 
+
+
   /* Header: transparent — do NOT hide stHeader (it holds the sidebar toggle) */
   [data-testid="stHeader"] {
     background: transparent !important;
     border-bottom: none !important;
   }
   [data-testid="stDecoration"] { display: none !important; }
+
+
 
 
   /* === TEXT INPUTS === */
@@ -69,6 +81,8 @@ st.markdown("""
   }
 
 
+
+
   /* === SIDEBAR — minimal: only color, no layout overrides === */
   [data-testid="stSidebar"],
   [data-testid="stSidebar"] > div:first-child {
@@ -82,6 +96,8 @@ st.markdown("""
   [data-testid="stSidebar"] h3,
   [data-testid="stSidebar"] h4,
   [data-testid="stSidebar"] label { color: #ffffff !important; }
+
+
 
 
   /* Sidebar buttons: dark outlined (New Batch Scan) */
@@ -102,6 +118,8 @@ st.markdown("""
   }
 
 
+
+
   /* Sidebar button hover states */
   [data-testid="stSidebar"] button:hover {
     background-color: #334155 !important;
@@ -114,6 +132,8 @@ st.markdown("""
   }
 
 
+
+
   /* Sidebar collapse/expand toggle buttons */
   [data-testid="stSidebarCollapseButton"] button,
   [data-testid="stSidebarCollapsedControl"] button,
@@ -124,17 +144,24 @@ st.markdown("""
     border-radius: 6px !important;
     color: #d1d5db !important; /* sets currentColor for SVGs that use it */
   }
-  /* OVERRIDE: Force Toggle Arrow Visibility */
-  div[data-testid="collapsedControl"] svg,
+  /* Arrow SVG → #d1d5db light gray. Targets svg, path, and all children
+     to catch both fill="currentColor" and explicit fill attributes. */
+  [data-testid="collapsedControl"] svg,
+  [data-testid="collapsedControl"] svg path,
+  [data-testid="collapsedControl"] svg *,
   button[data-testid="stSidebarCollapseByFrame"] svg,
-  [data-testid="stSidebarCollapseButton"] svg {
+  button[data-testid="stSidebarCollapseByFrame"] svg path,
+  button[data-testid="stSidebarCollapseByFrame"] svg *,
+  [data-testid="stSidebarCollapseButton"] button svg,
+  [data-testid="stSidebarCollapseButton"] button svg path,
+  [data-testid="stSidebarCollapsedControl"] svg,
+  [data-testid="stSidebarCollapsedControl"] svg path {
     fill: #d1d5db !important;
-    color: #d1d5db !important;
     stroke: #d1d5db !important;
-    stroke-width: 2 !important;
-    opacity: 1 !important;
-    display: block !important;
+    color: #d1d5db !important;
   }
+
+
 
 
   /* === DASHBOARD BANNER === */
@@ -164,6 +191,8 @@ st.markdown("""
   }
 
 
+
+
   /* === DOWNLOAD BUTTON → blue (stable data-testid selector) === */
   [data-testid="stDownloadButton"] button,
   .stDownloadButton button {
@@ -173,6 +202,8 @@ st.markdown("""
     border-radius: 10px !important;
     font-weight: 700 !important;
   }
+
+
 
 
   /* === FILE UPLOADER === */
@@ -205,11 +236,17 @@ st.markdown("""
   }
 
 
+
+
   /* === LOGIN CARD CENTERING === */
   .login-header { text-align: center !important; width: 100% !important; }
   .login-header * { text-align: center !important; }
 </style>
 """, unsafe_allow_html=True)
+
+
+
+
 
 
 
@@ -277,6 +314,8 @@ def show_login():
     """, unsafe_allow_html=True)
 
 
+
+
     st.markdown("""
 <div style='display: flex; flex-direction: column; align-items: center; width: 100%; text-align: center;'>
     <div style='font-size: 3.5rem; margin-bottom: 15px;'>🛡️</div>
@@ -288,8 +327,12 @@ def show_login():
 """, unsafe_allow_html=True)
 
 
+
+
     email    = st.text_input("Email", value="demo@katiegray.design", key="login_email")
     password = st.text_input("Password", type="password", value="Compliance2026", key="login_pass")
+
+
 
 
     st.markdown('<div class="login-signin">', unsafe_allow_html=True)
@@ -310,6 +353,8 @@ def show_login():
     st.markdown("</div>", unsafe_allow_html=True)
 
 
+
+
     st.markdown(
         "<p style='text-align:center; color:#94a3b8; font-size:0.8rem; margin-top:15px;'>"
         "demo@katiegray.design | Compliance2026</p>",
@@ -319,9 +364,15 @@ def show_login():
 
 
 
+
+
+
+
 # ── DASHBOARD ─────────────────────────────────────────────────────────────────
 def show_dashboard():
     user_email = st.session_state.get("user_email") or "demo@katiegray.design"
+
+
 
 
     # ── Sidebar — very first thing, no conditionals ───────────────────────────
@@ -348,6 +399,8 @@ def show_dashboard():
             st.session_state.user_id       = None
             st.session_state.scan_result   = None
             st.rerun()
+
+
 
 
     # Dashboard container + button color overrides
@@ -408,6 +461,8 @@ def show_dashboard():
     """, unsafe_allow_html=True)
 
 
+
+
     # ── Banner ────────────────────────────────────────────────────────────────
     st.markdown("""
     <div class="main-banner">
@@ -418,6 +473,8 @@ def show_dashboard():
     """, unsafe_allow_html=True)
 
 
+
+
     # ── Batch Upload ──────────────────────────────────────────────────────────
     st.markdown("**📁 Batch Upload**")
     uploaded_files = st.file_uploader(
@@ -426,6 +483,8 @@ def show_dashboard():
         label_visibility="collapsed",
         key=f"batch_uploader_{st.session_state.uploader_key}",
     )
+
+
 
 
     if st.button("🛡️ Sanitize & Log Batch", type="primary"):
@@ -464,17 +523,25 @@ def show_dashboard():
             st.rerun()
 
 
+
+
     # ── Results: success → previews → download → clear ────────────────────────
     if st.session_state.scan_result:
         r = st.session_state.scan_result
+
+
 
 
         if r["errors"]:
             st.error("Errors: " + "; ".join(r["errors"]))
 
 
+
+
         if r["count"] > 0:
             st.success(f"✅ {r['count']} file(s) sanitized and logged.")
+
+
 
 
             # Per-file redacted preview
@@ -487,12 +554,16 @@ def show_dashboard():
                     st.code(fd["sanitized"], language=None)
 
 
+
+
             # Build ZIP in memory
             zip_buf = io.BytesIO()
             with zipfile.ZipFile(zip_buf, "w", zipfile.ZIP_DEFLATED) as zf:
                 for fd in r["files"]:
                     zf.writestr(f"sanitized_{fd['name']}", fd["sanitized"])
             zip_buf.seek(0)
+
+
 
 
             btn_col1, btn_col2 = st.columns([1, 1])
@@ -508,10 +579,14 @@ def show_dashboard():
                 clear_clicked = st.button("🗑 Clear Batch", use_container_width=True, type="secondary")
 
 
+
+
             if downloaded or clear_clicked:
                 st.session_state.scan_result  = None
                 st.session_state.uploader_key += 1
                 st.rerun()
+
+
 
 
     # ── Audit Log ─────────────────────────────────────────────────────────────
@@ -539,6 +614,10 @@ def show_dashboard():
             st.write("No audit records found for this account.")
     except Exception as e:
         st.error(f"Audit log error: {e}")
+
+
+
+
 
 
 
