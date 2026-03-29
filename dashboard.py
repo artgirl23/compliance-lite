@@ -58,21 +58,31 @@ st.markdown("""
 
   /* === SIDEBAR === */
   [data-testid="stSidebar"] {
-    background-color: #1e293b !important;
-    display: flex !important;           /* force render */
+    background-color: #0f172a !important;  /* dark navy, matches screenshot */
   }
-  /* Scope to p and span only — avoid overriding Streamlit structural divs */
   [data-testid="stSidebar"] p,
   [data-testid="stSidebar"] span { color: #f8fafc; }
 
-  /* Sidebar Sign Out = red */
+  /* Sidebar buttons: dark outlined (New Batch Scan style) */
   [data-testid="stSidebar"] button {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+    border: 1px solid #334155 !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    width: 100% !important;
+  }
+  /* Sign Out specifically = red */
+  [data-testid="stSidebar"] .sign-out-btn button {
     background-color: #ef4444 !important;
+    border: none !important;
+  }
+
+  /* Gray secondary buttons (Clear Batch) */
+  .block-container button[kind="secondary"] {
+    background-color: #475569 !important;
     color: white !important;
     border: none !important;
-    border-radius: 10px !important;
-    font-weight: 700 !important;
-    width: 100% !important;
   }
 
   /* Sidebar toggle: brand blue with drop shadow */
@@ -284,15 +294,21 @@ def show_dashboard():
         <p style="margin:0;color:#f8fafc;">Marketing &amp; UX Lead</p>
         <p style="font-size:0.7rem;color:#64748b;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
         <p style="margin:0;color:#f8fafc;">{user_email}</p>
-        <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">🟢 Cloud Connected</p>
+        <p style="color:#3b82f6;font-size:0.85rem;margin-top:10px;">● Cloud Connected</p>
         """, unsafe_allow_html=True)
         st.write("")
+        if st.button("📋 New Batch Scan", use_container_width=True):
+            st.session_state.scan_result  = None
+            st.session_state.uploader_key += 1
+            st.rerun()
+        st.markdown('<div class="sign-out-btn">', unsafe_allow_html=True)
         if st.button("Sign Out", use_container_width=True):
             st.session_state.authenticated = False
             st.session_state.user_email    = ""
             st.session_state.user_id       = None
             st.session_state.scan_result   = None
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
 
     # Expand block-container for dashboard
     st.markdown("""
@@ -399,7 +415,7 @@ def show_dashboard():
                     use_container_width=True,
                 )
             with btn_col2:
-                if st.button("🗑 Clear Batch", use_container_width=True):
+                if st.button("🗑 Clear Batch", use_container_width=True, type="secondary"):
                     st.session_state.scan_result  = None
                     st.session_state.uploader_key += 1
                     st.rerun()
