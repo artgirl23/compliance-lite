@@ -51,6 +51,16 @@ st.markdown("""
     padding: 10px 14px !important;
   }
   [data-testid="stTextInput"] label { color: #94a3b8 !important; font-size: 0.85rem !important; }
+  /* Password eye icon: transparent bg, blue icon — remove the solid blue box */
+  [data-testid="stTextInput"] button {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  [data-testid="stTextInput"] button svg {
+    fill: #3b82f6 !important;
+    stroke: #3b82f6 !important;
+  }
 
   /* === SIDEBAR — minimal: only color, no layout overrides === */
   [data-testid="stSidebar"],
@@ -81,6 +91,18 @@ st.markdown("""
     background-color: #ef4444 !important;
     color: #ffffff !important;
     border: none !important;
+  }
+
+  /* Sidebar collapse/expand toggle arrow → bright blue so it's visible on dark bg */
+  [data-testid="stSidebarCollapseButton"] button {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+  }
+  [data-testid="stSidebarCollapseButton"] button svg,
+  [data-testid="stSidebarCollapsedControl"] button svg {
+    fill: #3b82f6 !important;
+    stroke: #3b82f6 !important;
+    color: #3b82f6 !important;
   }
 
   /* === DASHBOARD BANNER === */
@@ -241,11 +263,11 @@ def show_dashboard():
         st.markdown("🛡️")
         st.markdown("### Admin Portal")
         st.markdown(f"""
-        <p style="font-size:0.7rem;color:#bfdbfe;text-transform:uppercase;font-weight:700;margin:14px 0 2px;">OPERATOR</p>
+        <p style="font-size:0.7rem;color:#93c5fd;text-transform:uppercase;font-weight:700;margin:14px 0 2px;">OPERATOR</p>
         <p style="margin:0;color:#ffffff;">Katie Gray</p>
-        <p style="font-size:0.7rem;color:#bfdbfe;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ROLE</p>
+        <p style="font-size:0.7rem;color:#93c5fd;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ROLE</p>
         <p style="margin:0;color:#ffffff;">Marketing &amp; UX Lead</p>
-        <p style="font-size:0.7rem;color:#bfdbfe;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
+        <p style="font-size:0.7rem;color:#93c5fd;text-transform:uppercase;font-weight:700;margin:12px 0 2px;">ACCOUNT</p>
         <p style="margin:0;color:#ffffff;">{user_email}</p>
         <p style="color:#60a5fa;font-size:0.85rem;margin-top:10px;">● Cloud Connected</p>
         """, unsafe_allow_html=True)
@@ -274,7 +296,7 @@ def show_dashboard():
         max-width: 1400px !important;
         margin-top: 0 !important;
       }
-      /* Sanitize (type="primary") → red. Both selectors for version compatibility. */
+      /* Sanitize (type="primary") → red */
       .block-container button[kind="primary"],
       .block-container button[data-testid="stBaseButton-primary"] {
         background-color: #ef4444 !important;
@@ -283,14 +305,33 @@ def show_dashboard():
         border-radius: 10px !important;
         font-weight: 700 !important;
       }
-      /* Clear Batch (type="secondary") → light gray + black text */
+      .block-container button[kind="primary"]:hover,
+      .block-container button[data-testid="stBaseButton-primary"]:hover {
+        background-color: #dc2626 !important;
+      }
+      /* Clear Batch (type="secondary") → medium gray + white text */
       .block-container button[kind="secondary"],
       .block-container button[data-testid="stBaseButton-secondary"] {
-        background-color: #e5e7eb !important;
-        color: #111827 !important;
+        background-color: #64748b !important;
+        color: #ffffff !important;
         border: none !important;
         border-radius: 10px !important;
         font-weight: 700 !important;
+      }
+      .block-container button[kind="secondary"]:hover,
+      .block-container button[data-testid="stBaseButton-secondary"]:hover {
+        background-color: #475569 !important;
+      }
+      /* Download button → blue. Placed AFTER secondary rule so cascade wins. */
+      [data-testid="stDownloadButton"] button {
+        background-color: #3b82f6 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+      }
+      [data-testid="stDownloadButton"] button:hover {
+        background-color: #2563eb !important;
       }
     </style>
     """, unsafe_allow_html=True)
