@@ -230,6 +230,12 @@ def show_login():
         border-radius: 10px !important;
         font-weight: 700 !important;
       }
+      /* Force heading & subheading to center regardless of Streamlit wrapper alignment */
+      .block-container h1,
+      .block-container h2,
+      .block-container h3,
+      .login-header h1,
+      .login-header p { text-align: center !important; width: 100% !important; }
       /* Exception: password eye icon must NOT get the blue background */
       [data-testid="stTextInput"] button,
       [data-testid="stPasswordInputVisibilityToggle"] {
