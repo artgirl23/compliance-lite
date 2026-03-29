@@ -35,16 +35,12 @@ st.markdown("""
   /* === GLOBAL === */
   .stApp { background-color: #0f172a !important; color: #f8fafc !important; }
 
-  /* Make header transparent (keep sidebar toggle functional — do NOT display:none) */
+  /* Header: transparent — do NOT hide stHeader (it holds the sidebar toggle) */
   [data-testid="stHeader"] {
     background: transparent !important;
     border-bottom: none !important;
   }
-  /* Hide only the Streamlit toolbar/branding inside the header */
-  [data-testid="stToolbar"],
-  [data-testid="stDecoration"] {
-    display: none !important;
-  }
+  [data-testid="stDecoration"] { display: none !important; }
 
   /* === TEXT INPUTS === */
   [data-testid="stTextInput"] input {
@@ -56,26 +52,21 @@ st.markdown("""
   }
   [data-testid="stTextInput"] label { color: #94a3b8 !important; font-size: 0.85rem !important; }
 
-  /* === SIDEBAR === */
-  [data-testid="stSidebar"] {
-    background-color: #0f172a !important;
-    /* NO transform/min-width/max-width overrides — let Streamlit's toggle animate freely */
-  }
+  /* === SIDEBAR — minimal: only color, no layout overrides === */
+  [data-testid="stSidebar"],
   [data-testid="stSidebar"] > div:first-child {
     background-color: #0f172a !important;
-    padding-top: 1.5rem !important;
   }
-  /* Force ALL text in sidebar to be white/bright regardless of element type */
+  /* Sidebar text → white (do NOT target div — that breaks toggle internals) */
   [data-testid="stSidebar"] p,
   [data-testid="stSidebar"] span,
   [data-testid="stSidebar"] h1,
   [data-testid="stSidebar"] h2,
   [data-testid="stSidebar"] h3,
   [data-testid="stSidebar"] h4,
-  [data-testid="stSidebar"] div,
   [data-testid="stSidebar"] label { color: #ffffff !important; }
 
-  /* Sidebar buttons: dark outlined (default / New Batch Scan) */
+  /* Sidebar buttons: dark outlined (New Batch Scan) */
   [data-testid="stSidebar"] button {
     background-color: #1e293b !important;
     color: #f8fafc !important;
@@ -84,49 +75,12 @@ st.markdown("""
     font-weight: 600 !important;
     width: 100% !important;
   }
-  /* Sign Out = primary type → red */
-  [data-testid="stSidebar"] button[kind="primary"] {
+  /* Sign Out (type="primary") → red. Both selectors for version compatibility. */
+  [data-testid="stSidebar"] button[kind="primary"],
+  [data-testid="stSidebar"] button[data-testid="stBaseButton-primary"] {
     background-color: #ef4444 !important;
     color: #ffffff !important;
     border: none !important;
-  }
-
-  /* === MAIN CONTENT BUTTON COLORS === */
-  /* Primary buttons (Sanitize & Log Batch) → red */
-  .block-container button[kind="primary"] {
-    background-color: #ef4444 !important;
-    color: #ffffff !important;
-    border: none !important;
-  }
-  /* Secondary buttons (Clear Batch) → light gray with dark text */
-  .block-container button[kind="secondary"] {
-    background-color: #e5e7eb !important;
-    color: #111827 !important;
-    border: none !important;
-  }
-
-  /* Sidebar toggle: brand blue with drop shadow */
-  [data-testid="stSidebarCollapseButton"] button,
-  [data-testid="stSidebarCollapsedControl"] button,
-  button[data-testid="stBaseButton-headerNoPadding"] {
-    background-color: #3b82f6 !important;
-    border-radius: 8px !important;
-    border: none !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
-  }
-  [data-testid="stSidebarCollapseButton"] button svg,
-  [data-testid="stSidebarCollapsedControl"] svg,
-  button[data-testid="stBaseButton-headerNoPadding"] svg {
-    fill: white !important;
-    stroke: white !important;
-  }
-  [data-testid="stSidebarCollapsedControl"] {
-    visibility: visible !important;
-    display: block !important;
-    background-color: #3b82f6 !important;
-    border-radius: 5px !important;
-    color: white !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
   }
 
   /* === DASHBOARD BANNER === */
@@ -134,7 +88,6 @@ st.markdown("""
     background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #3b82f6 100%);
     border-radius: 24px;
     padding: 48px 40px;
-    text-align: center;
     margin-bottom: 28px;
     display: flex;
     flex-direction: column;
@@ -156,70 +109,39 @@ st.markdown("""
     text-align: center !important;
   }
 
-  /* === MAIN CONTENT BUTTONS (base) === */
-  .block-container button {
+  /* === DOWNLOAD BUTTON → blue (stable data-testid selector) === */
+  [data-testid="stDownloadButton"] button,
+  .stDownloadButton button {
+    background-color: #3b82f6 !important;
+    color: #ffffff !important;
+    border: none !important;
     border-radius: 10px !important;
     font-weight: 700 !important;
   }
 
-  /* Sign In is blue */
-  .login-signin button {
-    background-color: #3b82f6 !important;
-    color: white !important;
-    border: none !important;
-  }
-
-  /* Download button is brand blue (st.download_button renders as stDownloadButton) */
-  .stDownloadButton button {
-    background-color: #3b82f6 !important;
-    color: white !important;
-  }
-
-  /* Hover glow */
-  .block-container button:hover {
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6) !important;
-    transition: box-shadow 0.2s ease !important;
-  }
-  [data-testid="stSidebar"] button:hover {
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6) !important;
-    transition: box-shadow 0.2s ease !important;
-  }
-
   /* === FILE UPLOADER === */
-  /* Dropzone: dark navy, solid border */
   [data-testid="stFileUploader"] section {
     background-color: #1e293b !important;
     border: 2px solid #475569 !important;
     border-radius: 12px !important;
   }
-  /* Dropzone instructional text */
   [data-testid="stFileUploaderDropzoneInstructions"],
   [data-testid="stFileUploaderDropzoneInstructions"] span,
-  [data-testid="stFileUploaderDropzoneInstructions"] p,
   [data-testid="stFileUploaderDropzoneInstructions"] small,
   [data-testid="stFileUploader"] section p,
   [data-testid="stFileUploader"] section span,
   [data-testid="stFileUploader"] section small { color: #e2e8f0 !important; }
-  /* Filename text */
   [data-testid="stFileUploaderFile"],
   [data-testid="stFileUploaderFileName"],
-  [data-testid="stFileUploaderFileData"],
   [data-testid="stFileUploader"] span,
   [data-testid="stFileUploader"] p,
   [data-testid="stFileUploader"] small { color: #e2e8f0 !important; }
-  /* Delete button: subtle X */
   [data-testid="stFileUploaderDeleteBtn"] button {
     background-color: transparent !important;
     border: none !important;
     color: #94a3b8 !important;
     border-radius: 50% !important;
-    padding: 2px 6px !important;
-    font-size: 0.85rem !important;
     box-shadow: none !important;
-  }
-  [data-testid="stFileUploaderDeleteBtn"] button:hover {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    color: #f8fafc !important;
   }
   [data-testid="stFileUploaderDeleteBtn"] button svg {
     fill: #94a3b8 !important;
@@ -254,6 +176,16 @@ def show_login():
         padding: 50px 40px !important;
         max-width: 450px !important;
         margin: auto !important;
+      }
+      /* LOGIN PAGE: Sign In button → blue. Both selectors for version compatibility. */
+      .block-container button,
+      .block-container button[kind="secondary"],
+      .block-container button[data-testid="stBaseButton-secondary"] {
+        background-color: #3b82f6 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
       }
     </style>
     """, unsafe_allow_html=True)
@@ -329,7 +261,7 @@ def show_dashboard():
             st.session_state.scan_result   = None
             st.rerun()
 
-    # Expand block-container for dashboard
+    # Dashboard container + button color overrides
     st.markdown("""
     <style>
       .block-container {
@@ -341,6 +273,24 @@ def show_dashboard():
         padding: 1.5rem 2rem !important;
         max-width: 1400px !important;
         margin-top: 0 !important;
+      }
+      /* Sanitize (type="primary") → red. Both selectors for version compatibility. */
+      .block-container button[kind="primary"],
+      .block-container button[data-testid="stBaseButton-primary"] {
+        background-color: #ef4444 !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
+      }
+      /* Clear Batch (type="secondary") → light gray + black text */
+      .block-container button[kind="secondary"],
+      .block-container button[data-testid="stBaseButton-secondary"] {
+        background-color: #e5e7eb !important;
+        color: #111827 !important;
+        border: none !important;
+        border-radius: 10px !important;
+        font-weight: 700 !important;
       }
     </style>
     """, unsafe_allow_html=True)
