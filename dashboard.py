@@ -372,6 +372,12 @@ def show_login():
 
 # ── DASHBOARD ─────────────────────────────────────────────────────────────────
 def show_dashboard():
+    st.markdown("""
+    <script>
+        const btn = window.parent.document.querySelector('[data-testid="collapsedControl"] button');
+        if (btn) btn.click();
+    </script>
+    """, unsafe_allow_html=True)
     user_email = st.session_state.get("user_email") or "demo@katiegray.design"
 
 
